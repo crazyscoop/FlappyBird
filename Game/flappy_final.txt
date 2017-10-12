@@ -1,0 +1,786 @@
+import pygame,random,sys,pole_1_c,pole_2_c,pole_3_c,pole_4_c,bird_c,unit_c,ten_c,hun_c,title_c,bird_t_c,cursor_c,play_c,ready_c
+from Platform import platform_c,ball_c
+pygame.init()
+
+class Score(pygame.sprite.Sprite):
+      def __init__(self):
+          pygame.sprite.Sprite.__init__(self)
+          self.image = pygame.image.load("f3/board.png")
+          self.rect = self.image.get_rect()
+          self.rect.center = (197.5,-150)
+          self.gravity = 1
+          self.frame = 0
+          self.truth = False
+
+      def update(self):
+          if self.truth == True:
+             self.frame += 1
+             self.checkbound()
+             self.rect.centery += self.frame*(self.gravity)
+             
+      def checkbound(self):
+          if self.rect.centery >= 280 :
+             self.truth = False
+
+class Credit(pygame.sprite.Sprite):
+      def __init__(self):
+          pygame.sprite.Sprite.__init__(self)
+          self.image = pygame.image.load("font/credit1.png")
+          self.rect = self.image.get_rect()
+          self.rect.center = (300,500)
+
+class Main(pygame.sprite.Sprite): 
+      def __init__(self):
+          pygame.sprite.Sprite.__init__(self)
+          self.image = pygame.image.load("f3/main1.png")
+          self.rect = self.image.get_rect()
+          self.rect.center = (300,-140)
+          self.gravity = 1
+          self.frame = 0
+          self.truth = False
+
+      def update(self):
+          if self.truth == True:
+             self.frame += 1
+             self.checkbound()
+             self.rect.centery += self.frame*(self.gravity)
+
+      def checkbound(self):
+          if self.rect.centery >= 445:
+             self.truth = False
+  
+
+
+
+class Game_over(pygame.sprite.Sprite):
+      def __init__(self):
+          pygame.sprite.Sprite.__init__(self)
+          self.image = pygame.image.load("f3/over.png")
+
+          self.rect = self.image.get_rect()
+          self.rect.center = (197.5,-50)
+          self.gravity = 1
+          self.frame = 0
+          self.truth = False
+
+      def update(self):
+          if self.truth == True:
+             self.frame += 1
+             self.checkbound()
+             self.rect.centery += self.frame*(self.gravity)
+
+      def checkbound(self):
+          if self.rect.centery >= 40:
+             self.truth = False
+                                     
+
+class Start(pygame.sprite.Sprite):
+      def __init__(self):
+          pygame.sprite.Sprite.__init__(self)
+          self.image = pygame.image.load("f3/start1.png")
+          self.rect = self.image.get_rect()
+          self.rect.center = (100,-140)
+          self.gravity = 1
+          self.frame = 0
+          self.truth = False
+
+      def update(self):
+          if self.truth == True:
+             self.frame += 1
+             self.checkbound()
+             self.rect.centery += self.frame*(self.gravity)
+
+      def checkbound(self):
+          if self.rect.centery >= 445:
+             self.truth = False
+
+class Label(pygame.sprite.Sprite):
+      def __init__(self):
+          pygame.sprite.Sprite.__init__(self)
+          self.font = pygame.font.SysFont("04b_19",40)
+          self.text = ""
+          self.image = self.font.render(self.text,1,(0,0,0))
+          self.rect = self.image.get_rect()
+          self.rect.center = (300,300)
+          self.pause = 0
+          self.delay = 4
+          
+          
+
+      def update(self,no,count):
+          self.count = count
+          if no <= self.count:
+             self.text = "%s" % no
+             self.image = self.font.render(self.text,1,(0,0,0))
+             self.rect = self.image.get_rect()
+             self.rect.center = (300,300)
+
+class Medal(pygame.sprite.Sprite):
+      def __init__(self):
+          pygame.sprite.Sprite.__init__(self)
+          self.image = pygame.image.load("f3/silver.png")
+          self.rect = self.image.get_rect()
+          self.rect.center = (97,328)
+                    
+
+class Design(pygame.sprite.Sprite):
+      def __init__(self,screen):
+          pygame.sprite.Sprite.__init__(self)
+          self.screen = screen
+          self.image = pygame.image.load("font/designed.png")
+          self.rect = self.image.get_rect()
+          self.rect.center = (-150,300)
+
+      
+
+class Hp1(pygame.sprite.Sprite):
+      def __init__(self,screen):
+          pygame.sprite.Sprite.__init__(self)
+          self.screen = screen
+          self.image = pygame.image.load("hp1.png")
+          self.rect = self.image.get_rect()
+          self.rect.center = (-401 - 50,300)
+
+class Hp2(pygame.sprite.Sprite):
+      def __init__(self,screen):
+          pygame.sprite.Sprite.__init__(self)
+          self.screen = screen
+          self.image = pygame.image.load("hp2.png")
+          self.rect = self.image.get_rect()
+          self.rect.center = (853,300)
+
+class Special(pygame.sprite.Sprite):
+      def __init__(self,screen):
+          pygame.sprite.Sprite.__init__(self)
+          self.screen = screen
+          self.image = pygame.image.load("font/special.png")
+          self.rect = self.image.get_rect()
+          self.rect.center = (600,505)
+
+##################################################################################
+def front():
+    screen = pygame.display.set_mode((395,700))
+    background = pygame.image.load("background.jpg")
+    background = background.convert()
+    screen.blit(background,(0,0))
+  
+    truth = True
+    clock = pygame.time.Clock()
+
+    title = title_c.Title(screen)   
+    play = play_c.Play(screen)
+    cursor = cursor_c.Cursor()
+    bird = bird_t_c.Bird_title()
+    credit = Credit()    
+ 
+    switch = pygame.mixer.Sound("switch.ogg")
+ 
+    pygame.mouse.set_visible(False)
+    platform = platform_c.Platform(screen)
+    allsprites = pygame.sprite.LayeredUpdates(platform,title,play,credit,cursor,bird)
+
+    platform.dx = -1.5
+ 
+    while truth == True:
+          clock.tick(60)
+
+          for event in pygame.event.get():
+              if event.type == pygame.QUIT:
+                 truth = False
+                 sys.exit(0)
+              elif event.type == pygame.MOUSEBUTTONDOWN and cursor.rect.colliderect(play):
+                 switch.play()
+                 second()
+              elif event.type == pygame.MOUSEBUTTONDOWN and cursor.rect.colliderect(credit):
+                   switch.play()
+                   Credit_f()
+                 
+
+          if cursor.rect.colliderect(play):
+             play.image = pygame.image.load("font/play2.png")
+          else:
+               play.image = pygame.image.load("font/play1.png")
+
+          if cursor.rect.colliderect(credit):
+             credit.image = pygame.image.load("font/credit2.png")
+          else:
+               credit.image = pygame.image.load("font/credit1.png")
+          
+          
+
+          allsprites.clear(screen,background)
+          allsprites.update()
+          allsprites.draw(screen)
+          pygame.display.flip()
+#####################################################################################
+
+def Credit_f():
+    screen = pygame.display.set_mode((395,700))
+    background = pygame.image.load("background.jpg")
+    background = background.convert()
+    screen.blit(background,(0,0))
+  
+    truth = True
+    clock = pygame.time.Clock()
+ 
+    bird1 = bird_c.Bird(screen)
+    bird2 = bird_c.Bird(screen)
+    ball = ball_c.Ball(screen)
+    hp1 = Hp1(screen)   
+    hp2 = Hp2(screen) 
+    ready = ready_c.Ready() 
+    cursor = cursor_c.Cursor()
+    main1 = Main()  
+
+    main1.rect.center = (197.5,650)
+    special = Special(screen)
+    design = Design(screen)
+   
+    bird1.rect.center = (40,520)
+    bird2.rect.center = (343,520)
+
+    ball.image = pygame.image.load("font/programmed.png")
+    ball.rect.center = (33,480)
+
+    platform = platform_c.Platform(screen)
+    allsprites = pygame.sprite.LayeredUpdates(platform,bird1,bird2,ball,design,hp1,hp2,special,ready,main1,cursor)
+    truth2 = True
+    truth3 = False
+    truth4 = False
+    truth5 = True
+    truth6 = True
+    truth7 = False
+    truth8 = False 
+    truth9 = False
+    truth10 = False
+    truth11 = False
+    truth
+    pygame.mouse.set_visible(False)
+    
+    wing = pygame.mixer.Sound("wing.ogg")    
+    switch = pygame.mixer.Sound("switch.ogg")
+
+    while truth == True:
+          clock.tick(30)
+
+          for event in pygame.event.get():
+              if event.type == pygame.QUIT:
+                 truth = False
+              elif event.type == pygame.MOUSEMOTION:
+                   (x,y) = pygame.mouse.get_pos()
+                   pygame.display.set_caption("%s %s"%(x,y))
+              elif event.type == pygame.KEYDOWN:
+                   if event.key == pygame.K_SPACE and truth2 == True:
+                      ball.truth = True
+                      ball.acc = -8
+                      ball.frame1 = 0
+                      ball.frame2 = 0
+                      wing.play()
+                      bird1.truth = True
+                      bird1.acc = -8
+                      bird1.frame1 = 0
+                      bird1.frame2 = 0
+                      bird1.freefallht = bird1.rect.centery
+                      bird2.truth = True
+                      bird2.acc = -8
+                      bird2.frame1 = 0
+                      bird2.frame2 = 0
+                      bird2.freefallht = bird2.rect.centery
+                      pygame.sprite.Sprite.kill(ready)
+                      truth2 = False
+              elif event.type == pygame.MOUSEBUTTONDOWN and cursor.rect.colliderect(main1) == True:
+                   switch.play()
+                   front()               
+              elif event.type == pygame.MOUSEBUTTONDOWN and truth2 == True:
+                 ball.truth = True
+                 ball.acc = -8
+                 ball.frame1 = 0
+                 ball.frame2 = 0
+                 wing.play()
+                 bird1.truth = True
+                 bird1.acc = -8
+                 bird1.frame1 = 0
+                 bird1.frame2 = 0
+                 bird1.freefallht = bird1.rect.centery
+                 bird2.truth = True
+                 bird2.acc = -8
+                 bird2.frame1 = 0
+                 bird2.frame2 = 0
+                 bird2.freefallht = bird2.rect.centery
+                 pygame.sprite.Sprite.kill(ready)
+                 truth2 = False
+              
+
+
+          if bird1.rect.centery >= 460 and bird1.acc >= 0 and truth6 == True:
+             ball.truth = True
+             ball.acc = -8
+             ball.frame1 = 0
+             ball.frame2 = 0
+             wing.play()
+             bird1.truth = True
+             bird1.acc = -8
+             bird1.frame1 = 0
+             bird1.frame2 = 0
+             bird1.freefallht = bird1.rect.centery
+             bird2.truth = True
+             bird2.acc = -8
+             bird2.frame1 = 0
+             bird2.frame2 = 0
+             bird2.freefallht = bird2.rect.centery
+             truth6 = False
+             truth7 = True
+
+
+          if bird1.rect.centery > 400 and bird1.acc >= 0 and truth7 == True:
+             ball.truth = True
+             ball.acc = -8
+             ball.frame1 = 0
+             ball.frame2 = 0
+             wing.play()
+             bird1.truth = True
+             bird1.acc = -8
+             bird1.frame1 = 0
+             bird1.frame2 = 0
+             bird1.freefallht = bird1.rect.centery
+             bird2.truth = True
+             bird2.acc = -8
+             bird2.frame1 = 0
+             bird2.frame2 = 0
+             bird2.freefallht = bird2.rect.centery
+             truth7 = False
+             truth8 = True
+
+
+          if bird1.rect.centery > 340 and bird1.acc >= 0 and truth8 == True:
+             ball.truth = True
+             ball.acc = -8
+             ball.frame1 = 0
+             ball.frame2 = 0
+             wing.play()
+             bird1.truth = True
+             bird1.acc = -8
+             bird1.frame1 = 0
+             bird1.frame2 = 0
+             bird1.freefallht = bird1.rect.centery
+             bird2.truth = True
+             bird2.acc = -8
+             bird2.frame1 = 0
+             bird2.frame2 = 0
+             bird2.freefallht = bird2.rect.centery
+             truth8 = False
+             truth9 = True
+
+
+          if bird1.rect.centery > 280 and bird1.acc >= 0 and truth9 == True:
+             ball.truth = True
+             ball.acc = -8
+             ball.frame1 = 0
+             ball.frame2 = 0
+             wing.play()
+             bird1.truth = True
+             bird1.acc = -8
+             bird1.frame1 = 0
+             bird1.frame2 = 0
+             bird1.freefallht = bird1.rect.centery
+             bird2.truth = True
+             bird2.acc = -8
+             bird2.frame1 = 0
+             bird2.frame2 = 0
+             bird2.freefallht = bird2.rect.centery
+             truth9 = False
+             truth10 = True
+
+          if bird1.rect.centery > 220 and bird1.acc >= 0 and truth10 == True:
+             ball.truth = True
+             ball.acc = -8
+             ball.frame1 = 0
+             ball.frame2 = 0
+             wing.play()
+             bird1.truth = True
+             bird1.acc = -8
+             bird1.frame1 = 0
+             bird1.frame2 = 0
+             bird1.freefallht = bird1.rect.centery
+             bird2.truth = True
+             bird2.acc = -8
+             bird2.frame1 = 0
+             bird2.frame2 = 0
+             bird2.freefallht = bird2.rect.centery
+             truth10 = False
+             truth11 = True
+
+          if bird1.rect.centery > 160 and bird1.acc >= 0 and truth11 == True:
+             ball.truth = True
+             ball.acc = -8
+             ball.frame1 = 0
+             ball.frame2 = 0
+             wing.play()
+             bird1.truth = True
+             bird1.acc = -8
+             bird1.frame1 = 0
+             bird1.frame2 = 0
+             bird1.freefallht = bird1.rect.centery
+             bird2.truth = True
+             bird2.acc = -8
+             bird2.frame1 = 0
+             bird2.frame2 = 0
+             bird2.freefallht = bird2.rect.centery
+             truth11 = False
+             
+             
+          if ball.rect.centery < 90 and truth5 == True:
+             bird1.gravity1 = 0
+             bird2.gravity1 = 0
+             bird1.gravity2 = 0
+             bird2.gravity2 = 0
+             ball.gravity1 = 0
+             ball.gravity2 = 0
+             truth2 = False  
+             truth3 = True  
+             truth5 = False        
+    
+          if ball.rect.centery < 75 and truth2 == False:
+             ball.rect.centery = 80
+             bird1.rect.centery = 120
+             bird2.rect.centery = 120
+ 
+             
+ 
+          if truth3 == True:
+             design.rect.centerx += 1
+             hp1.rect.centerx += 1
+             hp2.rect.centerx += -1
+
+ 
+          if design.rect.centerx == 200 and truth3 == True:
+             truth3 = False   
+             truth4 = True          
+          
+          if truth4 == True:
+             special.rect.centerx += -5
+
+          if special.rect.centerx == 200:
+             truth4 = False  
+
+          if cursor.rect.colliderect(main1) == True:
+             main1.image = pygame.image.load("f3/main2.png")
+          elif cursor.rect.colliderect(main1) == False:
+               main1.image = pygame.image.load("f3/main1.png")                      
+
+          allsprites.clear(screen,background)
+          allsprites.update()
+          allsprites.draw(screen)
+          pygame.display.flip()
+
+
+
+#####################################################################################
+def second():
+    screen = pygame.display.set_mode((395,700))
+    background = pygame.image.load("background.jpg")
+    background = background.convert()
+    screen.blit(background,(0,0))
+  
+    truth = True
+    clock = pygame.time.Clock()
+
+    platform = platform_c.Platform(screen)
+    ready = ready_c.Ready()
+    bird = bird_t_c.Bird_title()
+    cursor = cursor_c.Cursor()
+    allsprites = pygame.sprite.LayeredUpdates(platform,ready,bird,cursor)
+
+    switch = pygame.mixer.Sound("switch.ogg")
+
+    platform.dx = -1.5
+    bird.truth = False
+
+    bird.rect.center = (197.5,270)
+
+    while truth == True:
+          clock.tick(60)
+
+          for event in pygame.event.get():
+              if event.type == pygame.QUIT:
+                 truth = False
+                 sys.exit(0)
+              elif event.type == pygame.MOUSEBUTTONDOWN:
+                   switch.play()
+                   main()
+
+          allsprites.clear(screen,background)
+          allsprites.update()
+          allsprites.draw(screen)
+          pygame.display.flip()
+####################################################################################
+
+####################################################################################             
+def main():
+    screen = pygame.display.set_mode((395,700))
+    background = pygame.image.load("background.jpg")
+    background = background.convert()
+    screen.blit(background,(0,0))
+  
+    truth = True
+    clock = pygame.time.Clock()
+   
+    count = 0
+
+    unit_digit = unit_c.Unit_digit(screen,count)
+    ten_digit = ten_c.Ten_digit(screen,count)
+    hun_digit = hun_c.Hun_digit(screen,count)
+   
+    ball = bird_c.Bird(screen)
+    ball.rect.center = (100,100)
+
+    platform = platform_c.Platform(screen)
+    pole1 = pole_1_c.Pole_1(screen)
+    pole2 = pole_2_c.Pole_2(screen)
+    pole3 = pole_3_c.Pole_3(screen)
+    pole4 = pole_4_c.Pole_4(screen)
+
+    score = Score()
+    game_over = Game_over()
+    start = Start()
+    main1 = Main() 
+
+    cursor = cursor_c.Cursor()
+    label = Label()
+    label2 = Label()
+    medal = Medal()
+
+    label2.rect.center = (300,375)
+
+    pole1.truth = True
+    pole3.truth = True
+    ball.truth = True
+
+    hit = pygame.mixer.Sound("hit.ogg")
+    point = pygame.mixer.Sound("point.ogg")
+    wing = pygame.mixer.Sound("wing.ogg")
+    die = pygame.mixer.Sound("die.ogg")
+    switch = pygame.mixer.Sound("switch.ogg")
+
+    allsprites = pygame.sprite.LayeredUpdates(platform,pole1)
+    unit_sprite = pygame.sprite.LayeredUpdates(unit_digit)
+    ten_sprite = pygame.sprite.LayeredUpdates(ten_digit)
+    hun_sprite = pygame.sprite.LayeredUpdates(hun_digit)    
+    p2sprite = pygame.sprite.LayeredUpdates(pole2)
+    p3sprite = pygame.sprite.LayeredUpdates(pole3)
+    p4sprite = pygame.sprite.LayeredUpdates(pole4)    
+    ballsprite = pygame.sprite.LayeredUpdates(ball)
+    enemysprite = pygame.sprite.LayeredUpdates(pole1,pole2,pole3,pole4,platform)
+    finalsprites = pygame.sprite.LayeredUpdates(game_over,score,start,main1)
+    labelsprite = pygame.sprite.LayeredUpdates(label)
+    labelsprite2 = pygame.sprite.LayeredUpdates(label2)
+    medalsprite = pygame.sprite.LayeredUpdates(medal)
+    cursorsprite = pygame.sprite.LayeredUpdates(cursor)
+    truth2 = True
+  
+  
+    no = 0
+    sound = True
+    sound2 = True 
+    end = True  
+        
+    while truth == True:
+          clock.tick(30)
+ 
+
+          if pygame.sprite.spritecollide(ball,enemysprite,False): 
+             pole1.dx = 0
+             pole3.dx = 0
+             pole2.dx = 0
+             pole4.dx = 0
+             platform.dx = 0
+             truth2 = False
+             ball.truth2 = False
+             ball.freefall = True
+             if sound == True:
+                hit.play()
+                sound = False
+             if ball.rect.colliderect(platform) == True: 
+                ball.truth = False 
+                if sound2 == True:
+                   switch.play()
+                   sound2 = False 
+                   end = False              
+                   score.truth = True
+                   game_over.truth = True
+                   start.truth = True
+                   main1.truth = True 
+                   rs = open("point.txt","a")
+                   rs.write("\n%s"%(count))    
+                   rs.close() 
+                   sh = open("point.txt","r")
+                   list = []
+                   list2 = []
+                   for c in sh:
+                       list.append(c)
+                   l = len(list)
+                   for c in list:
+                       if c != list[l -1 ]:
+                          s = int(c[:-1])
+                          list2.append(s)
+                       elif c == list[l - 1]:
+                            s = int(c)
+                            list2.append(s)
+                  
+                   list2.sort()
+                   hs = list2[len(list2) - 1]       
+                   print hs
+                   print list2
+                   
+
+          for event in pygame.event.get():
+              if event.type == pygame.QUIT:
+                 truth = False
+                 sys.exit(0)
+              elif event.type == pygame.MOUSEMOTION:
+                   (mx,my) = pygame.mouse.get_pos()
+                   pygame.display.set_caption("%s %s"%(mx,my))
+              elif event.type == pygame.KEYDOWN:
+                   if event.key == pygame.K_SPACE and truth2 == True:
+                      wing.play()
+                      ball.truth = True
+                      ball.acc = -8
+                      ball.frame1 = 0
+                      ball.frame2 = 0
+                      ball.freefallht = ball.rect.centery
+              elif event.type == pygame.MOUSEBUTTONDOWN and truth2 == True:
+                   wing.play()
+                   ball.truth = True
+                   ball.acc = -8
+                   ball.frame1 = 0
+                   ball.frame2 = 0
+                   ball.freefallht = ball.rect.centery
+              elif event.type == pygame.MOUSEBUTTONDOWN and cursor.rect.colliderect(start):
+                   switch.play()
+                   main()
+              elif event.type == pygame.MOUSEBUTTONDOWN and cursor.rect.colliderect(main1):
+                   switch.play()
+                   front()
+
+
+          pole1.checkbound()
+
+          
+          if ball.rect.centerx > pole1.rect.centerx + 65 and pole1.truth == True:
+             count += 1
+             point.play()
+             pole1.truth = False
+
+          if ball.rect.centerx > pole3.rect.centerx + 65 and pole3.truth == True:
+             count += 1
+             point.play()
+             pole3.truth = False
+
+          if cursor.rect.colliderect(start) == True:
+             start.image = pygame.image.load("f3/start2.png")
+          elif cursor.rect.colliderect(start) == False:
+               start.image = pygame.image.load("f3/start1.png")
+
+          if cursor.rect.colliderect(main1) == True:
+             main1.image = pygame.image.load("f3/main2.png")
+          elif cursor.rect.colliderect(main1) == False:
+               main1.image = pygame.image.load("f3/main1.png")
+            
+          
+          lencount = len(str(count))        
+                 
+ 
+          allsprites.clear(screen,background)
+          allsprites.update()
+
+          p2sprite.clear(screen,background)
+          p2sprite.update(pole1)
+
+          p3sprite.clear(screen,background)
+          p3sprite.update(pole1)
+
+          p4sprite.clear(screen,background)
+          p4sprite.update(pole3)
+
+          ballsprite.clear(screen,background)
+          ballsprite.update() 
+
+          finalsprites.clear(screen,background) 
+          finalsprites.update()  
+ 
+          cursorsprite.clear(screen,background)
+          cursorsprite.update()
+        
+          
+          if start.truth == False and sound2 == False:
+             label.pause += 1
+             if label.pause >= label.delay:
+                label.pause = 0
+                labelsprite.clear(screen,background)
+                labelsprite.update(no,count)
+                labelsprite2.clear(screen,background)
+                labelsprite2.update(no,hs)
+                label2.rect.center = (300,375)
+                if count >= hs:
+                   medal.image = pygame.image.load("f3/gold.png")
+                elif count < hs:
+                     medal.image = pygame.image.load("f3/silver.png")
+                medalsprite.clear(screen,background)
+                medalsprite.update()                
+
+
+                no += 1
+               
+        
+      
+          if lencount == 1:
+             unit_sprite.clear(screen,background)
+          elif lencount == 2:
+                unit_sprite.clear(screen,background)
+                ten_sprite.clear(screen,background)
+          elif lencount == 3:
+               unit_sprite.clear(screen,background)
+               ten_sprite.clear(screen,background)
+               hun_sprite.clear(screen,background)      
+
+          
+          p2sprite.draw(screen) 
+          p3sprite.draw(screen)
+          p4sprite.draw(screen)
+          allsprites.draw(screen)
+          ballsprite.draw(screen)
+
+ 
+
+          if lencount == 1 and end == True:          
+             unit_sprite.update(count)
+             unit_sprite.draw(screen)  
+          elif lencount == 2 and end == True:
+               unit_sprite.update(count)
+               unit_sprite.draw(screen)
+               ten_sprite.update(count)
+               ten_sprite.draw(screen)          
+          elif lencount == 3 and end == True:
+               unit_sprite.update(count)
+               unit_sprite.draw(screen)
+               ten_sprite.update(count)
+               ten_sprite.draw(screen)
+               hun_sprite.update(count)
+               hun_sprite.draw(screen)
+
+                       
+          
+          finalsprites.draw(screen)           
+
+          if start.truth == False and sound2 == False:
+             labelsprite.draw(screen) 
+             labelsprite2.draw(screen)
+             medalsprite.draw(screen)                    
+
+          cursorsprite.draw(screen)
+          pygame.display.flip()
+########################################################################################
+
+if __name__ == "__main__":
+   front()
+          
