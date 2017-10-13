@@ -1,5 +1,6 @@
-import pygame,random,sys,pole_1_c,pole_2_c,pole_3_c,pole_4_c,bird_c,unit_c,ten_c,hun_c,title_c,bird_t_c,cursor_c,play_c,ready_c
+import pygame,random,sys,pole_1_c,pole_2_c,pole_3_c,pole_4_c,bird_c,title_c,bird_t_c,cursor_c,play_c,ready_c
 from Platform import platform_c,ball_c
+from Numbers import ten_c,unit_c,hun_c
 pygame.init()
 
 class Score(pygame.sprite.Sprite):
