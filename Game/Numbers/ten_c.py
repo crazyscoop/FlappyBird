@@ -6,7 +6,7 @@ class Ten_digit(pygame.sprite.Sprite):
           pygame.sprite.Sprite.__init__(self)
           self.screen = screen
           self.count = count
-          self.image = pygame.image.load("1.png") 
+          self.image = pygame.image.load("Numbers/1.png") 
           self.rect = self.image.get_rect()
           self.rect.center = (150,53)
 
@@ -15,4 +15,4 @@ class Ten_digit(pygame.sprite.Sprite):
           self.strcount = str(count)
           self.lencount = len(self.strcount)
           self.tendigit = self.strcount[self.lencount - 2]
-          self.image = pygame.image.load("%s.png"%(self.tendigit))
+          self.image = pygame.image.load("Numbers/%s.png"%(self.tendigit))

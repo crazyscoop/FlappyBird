@@ -9,7 +9,7 @@ pygame.init()
 class Score(pygame.sprite.Sprite):
       def __init__(self):
           pygame.sprite.Sprite.__init__(self)
-          self.image = pygame.image.load("f3/board.png")
+          self.image = pygame.image.load("UI/board.png")
           self.rect = self.image.get_rect()
           self.rect.center = (197.5,-150)
           self.gravity = 1
@@ -29,14 +29,14 @@ class Score(pygame.sprite.Sprite):
 class Credit(pygame.sprite.Sprite):
       def __init__(self):
           pygame.sprite.Sprite.__init__(self)
-          self.image = pygame.image.load("font/credit1.png")
+          self.image = pygame.image.load("UI/credit1.png")
           self.rect = self.image.get_rect()
           self.rect.center = (300,500)
 
 class Main(pygame.sprite.Sprite): 
       def __init__(self):
           pygame.sprite.Sprite.__init__(self)
-          self.image = pygame.image.load("f3/main1.png")
+          self.image = pygame.image.load("UI/main1.png")
           self.rect = self.image.get_rect()
           self.rect.center = (300,-140)
           self.gravity = 1
@@ -59,7 +59,7 @@ class Main(pygame.sprite.Sprite):
 class Game_over(pygame.sprite.Sprite):
       def __init__(self):
           pygame.sprite.Sprite.__init__(self)
-          self.image = pygame.image.load("f3/over.png")
+          self.image = pygame.image.load("UI/over.png")
 
           self.rect = self.image.get_rect()
           self.rect.center = (197.5,-50)
@@ -81,7 +81,7 @@ class Game_over(pygame.sprite.Sprite):
 class Start(pygame.sprite.Sprite):
       def __init__(self):
           pygame.sprite.Sprite.__init__(self)
-          self.image = pygame.image.load("f3/start1.png")
+          self.image = pygame.image.load("UI/play1.png")
           self.rect = self.image.get_rect()
           self.rect.center = (100,-140)
           self.gravity = 1
@@ -122,7 +122,7 @@ class Label(pygame.sprite.Sprite):
 class Medal(pygame.sprite.Sprite):
       def __init__(self):
           pygame.sprite.Sprite.__init__(self)
-          self.image = pygame.image.load("f3/silver.png")
+          self.image = pygame.image.load("UI/silver.png")
           self.rect = self.image.get_rect()
           self.rect.center = (97,328)
                     
@@ -131,7 +131,7 @@ class Design(pygame.sprite.Sprite):
       def __init__(self,screen):
           pygame.sprite.Sprite.__init__(self)
           self.screen = screen
-          self.image = pygame.image.load("font/designed.png")
+          self.image = pygame.image.load("UI/designed.png")
           self.rect = self.image.get_rect()
           self.rect.center = (-150,300)
 
@@ -141,7 +141,7 @@ class Hp1(pygame.sprite.Sprite):
       def __init__(self,screen):
           pygame.sprite.Sprite.__init__(self)
           self.screen = screen
-          self.image = pygame.image.load("hp1.png")
+          self.image = pygame.image.load("UI/hp1.png")
           self.rect = self.image.get_rect()
           self.rect.center = (-401 - 50,300)
 
@@ -149,7 +149,7 @@ class Hp2(pygame.sprite.Sprite):
       def __init__(self,screen):
           pygame.sprite.Sprite.__init__(self)
           self.screen = screen
-          self.image = pygame.image.load("hp2.png")
+          self.image = pygame.image.load("UI/hp2.png")
           self.rect = self.image.get_rect()
           self.rect.center = (853,300)
 
@@ -157,14 +157,14 @@ class Special(pygame.sprite.Sprite):
       def __init__(self,screen):
           pygame.sprite.Sprite.__init__(self)
           self.screen = screen
-          self.image = pygame.image.load("font/special.png")
+          self.image = pygame.image.load("UI/special.png")
           self.rect = self.image.get_rect()
           self.rect.center = (600,505)
 
 ##################################################################################
 def front():
     screen = pygame.display.set_mode((395,700))
-    background = pygame.image.load("background.jpg")
+    background = pygame.image.load("UI/background.jpg")
     background = background.convert()
     screen.blit(background,(0,0))
   
@@ -177,7 +177,7 @@ def front():
     bird = bird_t_c.Bird_title()
     credit = Credit()    
  
-    switch = pygame.mixer.Sound("switch.ogg")
+    switch = pygame.mixer.Sound("Sounds/switch.ogg")
  
     pygame.mouse.set_visible(False)
     platform = platform_c.Platform(screen)
@@ -201,14 +201,14 @@ def front():
                  
 
           if cursor.rect.colliderect(play):
-             play.image = pygame.image.load("font/play2.png")
+             play.image = pygame.image.load("UI/play2.png")
           else:
-               play.image = pygame.image.load("font/play1.png")
+               play.image = pygame.image.load("UI/play1.png")
 
           if cursor.rect.colliderect(credit):
-             credit.image = pygame.image.load("font/credit2.png")
+             credit.image = pygame.image.load("UI/credit2.png")
           else:
-               credit.image = pygame.image.load("font/credit1.png")
+               credit.image = pygame.image.load("UI/credit1.png")
           
           
 
@@ -220,7 +220,7 @@ def front():
 
 def Credit_f():
     screen = pygame.display.set_mode((395,700))
-    background = pygame.image.load("background.jpg")
+    background = pygame.image.load("UI/background.jpg")
     background = background.convert()
     screen.blit(background,(0,0))
   
@@ -243,7 +243,7 @@ def Credit_f():
     bird1.rect.center = (40,520)
     bird2.rect.center = (343,520)
 
-    ball.image = pygame.image.load("font/programmed.png")
+    ball.image = pygame.image.load("UI/programmed.png")
     ball.rect.center = (33,480)
 
     platform = platform_c.Platform(screen)
@@ -261,8 +261,8 @@ def Credit_f():
     truth
     pygame.mouse.set_visible(False)
     
-    wing = pygame.mixer.Sound("wing.ogg")    
-    switch = pygame.mixer.Sound("switch.ogg")
+    wing = pygame.mixer.Sound("Sounds/wing.ogg")    
+    switch = pygame.mixer.Sound("Sounds/switch.ogg")
 
     while truth == True:
           clock.tick(30)
@@ -468,9 +468,9 @@ def Credit_f():
              truth4 = False  
 
           if cursor.rect.colliderect(main1) == True:
-             main1.image = pygame.image.load("f3/main2.png")
+             main1.image = pygame.image.load("UI/main2.png")
           elif cursor.rect.colliderect(main1) == False:
-               main1.image = pygame.image.load("f3/main1.png")                      
+               main1.image = pygame.image.load("UI/main1.png")                      
 
           allsprites.clear(screen,background)
           allsprites.update()
@@ -482,7 +482,7 @@ def Credit_f():
 #####################################################################################
 def second():
     screen = pygame.display.set_mode((395,700))
-    background = pygame.image.load("background.jpg")
+    background = pygame.image.load("UI/background.jpg")
     background = background.convert()
     screen.blit(background,(0,0))
   
@@ -495,7 +495,7 @@ def second():
     cursor = cursor_c.Cursor()
     allsprites = pygame.sprite.LayeredUpdates(platform,ready,bird,cursor)
 
-    switch = pygame.mixer.Sound("switch.ogg")
+    switch = pygame.mixer.Sound("Sounds/switch.ogg")
 
     platform.dx = -1.5
     bird.truth = False
@@ -522,7 +522,7 @@ def second():
 ####################################################################################             
 def main():
     screen = pygame.display.set_mode((395,700))
-    background = pygame.image.load("background.jpg")
+    background = pygame.image.load("UI/background.jpg")
     background = background.convert()
     screen.blit(background,(0,0))
   
@@ -560,11 +560,11 @@ def main():
     pole3.truth = True
     ball.truth = True
 
-    hit = pygame.mixer.Sound("hit.ogg")
-    point = pygame.mixer.Sound("point.ogg")
-    wing = pygame.mixer.Sound("wing.ogg")
-    die = pygame.mixer.Sound("die.ogg")
-    switch = pygame.mixer.Sound("switch.ogg")
+    hit = pygame.mixer.Sound("Sounds/hit.ogg")
+    point = pygame.mixer.Sound("Sounds/point.ogg")
+    wing = pygame.mixer.Sound("Sounds/wing.ogg")
+    die = pygame.mixer.Sound("Sounds/die.ogg")
+    switch = pygame.mixer.Sound("Sounds/switch.ogg")
 
     allsprites = pygame.sprite.LayeredUpdates(platform,pole1)
     unit_sprite = pygame.sprite.LayeredUpdates(unit_digit)
@@ -681,14 +681,14 @@ def main():
              pole3.truth = False
 
           if cursor.rect.colliderect(start) == True:
-             start.image = pygame.image.load("f3/start2.png")
+             start.image = pygame.image.load("UI/play2.png")
           elif cursor.rect.colliderect(start) == False:
-               start.image = pygame.image.load("f3/start1.png")
+               start.image = pygame.image.load("UI/play1.png")
 
           if cursor.rect.colliderect(main1) == True:
-             main1.image = pygame.image.load("f3/main2.png")
+             main1.image = pygame.image.load("UI/main2.png")
           elif cursor.rect.colliderect(main1) == False:
-               main1.image = pygame.image.load("f3/main1.png")
+               main1.image = pygame.image.load("UI/main1.png")
             
           
           lencount = len(str(count))        
@@ -726,9 +726,9 @@ def main():
                 labelsprite2.update(no,hs)
                 label2.rect.center = (300,375)
                 if count >= hs:
-                   medal.image = pygame.image.load("f3/gold.png")
+                   medal.image = pygame.image.load("UI/gold.png")
                 elif count < hs:
-                     medal.image = pygame.image.load("f3/silver.png")
+                     medal.image = pygame.image.load("UI/silver.png")
                 medalsprite.clear(screen,background)
                 medalsprite.update()                
 
