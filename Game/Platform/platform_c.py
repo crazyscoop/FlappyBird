@@ -5,7 +5,7 @@ class Platform(pygame.sprite.Sprite):
       def __init__(self,screen):
           pygame.sprite.Sprite.__init__(self)
           self.screen = screen
-          self.image = pygame.image.load("platform2.png")
+          self.image = pygame.image.load("Platform/platform2.png")
           self.image = self.image.convert()
           self.rect = self.image.get_rect()
           self.rect.center = (395,624.5)
